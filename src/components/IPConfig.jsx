@@ -11,14 +11,15 @@ function IPConfig({ onIPUpdated }) {
         const ipPattern = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
         const domainPattern = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
         const localtunnelPattern = /^[a-zA-Z0-9-]+\.loca\.lt$/;
-        const urlPattern = /^https?:\/\/[a-zA-Z0-9-]+\.loca\.lt$/;
+        const urlPattern = /^https?:\/\/(?:www\.)?[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+/;
         
         if (!ipAddress || 
             (!ipPattern.test(ipAddress) && 
              !domainPattern.test(ipAddress) && 
              !localtunnelPattern.test(ipAddress) &&
              !urlPattern.test(ipAddress))) {
-            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68) o un dominio válido (ej: https://dull-oranges-rescue.loca.lt)');
+            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68), un dominio (ej: ejemplo.com) o una URL completa (ej: https://ejemplo.com o https://www.ejemplo.com)');
+            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68), un dominio (ej: ejemplo.com) o una URL completa (ej: https://ejemplo.com)');
             return;
         }
 
