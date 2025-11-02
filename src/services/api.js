@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Configuración base - necesitarás ajustar esta IP
-const ESP32_BASE_URL = 'http://192.168.1.82'; // Cambia por la IP real de tu ESP32
+const ESP32_BASE_URL = 'http://192.168.100.68/'; // Cambia por la IP real de tu ESP32
 
 const api = axios.create({
     baseURL: ESP32_BASE_URL,
