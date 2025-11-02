@@ -7,8 +7,16 @@ function IPConfig({ onIPUpdated }) {
     const [saving, setSaving] = useState(false);
 
     const handleSaveIP = async () => {
-        if (!ipAddress || !ipAddress.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/)) {
-            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68)');
+        // Validación mejorada para aceptar IPs y dominios
+        const ipPattern = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+        const domainPattern = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+        const localtunnelPattern = /^[a-zA-Z0-9-]+\.loca\.lt$/;
+        
+        if (!ipAddress || 
+            (!ipPattern.test(ipAddress) && 
+             !domainPattern.test(ipAddress) && 
+             !localtunnelPattern.test(ipAddress))) {
+            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68) o un dominio válido (ej: free-pianos-cheer.loca.lt)');
             return;
         }
 
@@ -59,7 +67,7 @@ function IPConfig({ onIPUpdated }) {
                     type="text"
                     value={ipAddress}
                     onChange={(e) => setIpAddress(e.target.value)}
-                    placeholder="192.168.100.68"
+                    placeholder="192.168.100.68 o free-pianos-cheer.loca.lt"
                     disabled={saving}
                 />
                 
@@ -81,8 +89,8 @@ function IPConfig({ onIPUpdated }) {
                 
                 <div className="config-help">
                     <small>
-                        💡 Ingresa la IP local de tu ESP32. 
-                        Encuentra la IP en el monitor serie o en tu router.
+                        💡 Ingresa la IP local de tu ESP32 o un dominio de túnel. 
+                        Ejemplos: 192.168.100.68 o free-pianos-cheer.loca.lt
                     </small>
                 </div>
             </div>
