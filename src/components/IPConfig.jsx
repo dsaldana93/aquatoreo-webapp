@@ -3,7 +3,7 @@ import { setESP32IP, getESP32IP } from '../services/api';
 
 function IPConfig({ onIPUpdated }) {
     const [showConfig, setShowConfig] = useState(false);
-    const [ipAddress, setIpAddress] = useState(getESP32IP());
+    const [ipAddress, setIpAddress] = useState(getESP32IP() || 'green-shirts-camp.loca.lt');
     const [saving, setSaving] = useState(false);
 
     const handleSaveIP = async () => {
