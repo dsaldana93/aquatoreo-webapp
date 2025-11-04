@@ -1,0 +1,18 @@
+[phases.setup]
+commands = [
+  "npm ci --unsafe-perm",
+  "chmod -R 755 node_modules/",
+  "ls -la node_modules/.bin/ | head -10"
+]
+
+[phases.build]
+commands = [
+  "chmod -R 755 node_modules/",
+  "npm run build"
+]
+
+[providers.node]
+version = "18"
+
+[start]
+cmd = "node server.js"
