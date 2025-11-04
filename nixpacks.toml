@@ -11,8 +11,7 @@ commands = [
   "npm run build"
 ]
 
-[providers.node]
-version = "18"
+providers = ["node"]
 
 [start]
 cmd = "node server.js"
