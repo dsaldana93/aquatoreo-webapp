@@ -14,4 +14,4 @@ commands = [
 providers = ["node"]
 
 [start]
-cmd = "node server.js"
+cmd = "npx serve dist -p 4173 --single"
