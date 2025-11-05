@@ -7,14 +7,12 @@ function IPConfig({ onIPUpdated }) {
     const [saving, setSaving] = useState(false);
 
     const handleSaveIP = async () => {
-        // Validación mejorada para aceptar IPs, dominios (multi-label) y URLs completas
+        // Validación mejorada para aceptar IPs, dominios (multi-label), localtunnel, ngrok y URLs completas
         const value = (ipAddress || '').trim();
         const ipPattern = /^(25[0-5]|2[0-4]\d|1?\d{1,2})(\.(25[0-5]|2[0-4]\d|1?\d{1,2})){3}$/;
-        // Hostnames con múltiples etiquetas y guiones (sin empezar/terminar con guion), p.ej. a-b.c-d.ngrok-free.dev
         const hostnamePattern = /^(?=.{1,253}$)(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,63}$/;
         const localtunnelPattern = /^[A-Za-z0-9-]+\.loca\.lt$/;
-        const ngrokPattern = /^[A-Za-z0-9-]+\.ngrok-free\.(?:app|dev)$/;
-        // URL http(s) con hostname multi-label y puerto opcional
+        const ngrokPattern = /^[A-Za-z0-9-]+\.ngrok(-free)?\.(dev|app)$/;
         const urlPattern = /^https?:\/\/[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+(?::\d+)?(?:\/.*)?$/;
 
         const isValid =
