@@ -1,15 +1,10 @@
-# nixpacks.toml
+# nixpacks.toml - PARA SPA ESTÁTICA
 name = "aquatoreo-webapp"
 
-# FUERZA el uso de Node.js y desactiva staticfile
-providers = ["node", "npm"]
-
-# Desactiva completamente la detección automática
-[detect]
-enable = false
+providers = ["node", "staticfile"]
 
 [phases.setup]
-nixPkgs = ["nodejs-18_x", "python3"]
+nixPkgs = ["nodejs-18_x"]
 
 [phases.install]
 cmds = ["npm ci"]
@@ -17,8 +12,14 @@ cmds = ["npm ci"]
 [phases.build]
 cmds = ["npm run build"]
 
+# Especifica la carpeta de build de Vite
+[static]
+path = "dist"
+singlePageApplication = true
+
 [start]
-cmd = "npm start"
+# Para SPA, usa un servidor estático
+cmd = "npx serve -s dist -l 3000"
 
 [env]
 NODE_ENV = "production"
