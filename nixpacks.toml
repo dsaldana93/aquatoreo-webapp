@@ -1,4 +1,4 @@
-# nixpacks.toml - VERSIÓN CORREGIDA
+# nixpacks.toml - USANDO NODE DIRECTAMENTE
 name = "aquatoreo-webapp"
 
 providers = ["node"]
@@ -7,17 +7,11 @@ providers = ["node"]
 nixPkgs = ["nodejs-18_x"]
 
 [phases.install]
-cmds = [
-    "npm install",
-    "chmod +x node_modules/.bin/vite || echo 'Vite permissions fixed'",
-    "chmod +x node_modules/.bin/* || echo 'All bin permissions fixed'"
-]
+cmds = ["npm install"]
 
 [phases.build]
-cmds = [
-    "ls -la node_modules/.bin/vite",
-    "node node_modules/vite/bin/vite.js build"
-]
+# Ejecuta Vite directamente con Node.js, evitando problemas de permisos
+cmds = ["node node_modules/vite/bin/vite.js build"]
 
 [static]
 path = "dist"
