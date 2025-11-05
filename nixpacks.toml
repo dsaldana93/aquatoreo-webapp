@@ -17,8 +17,8 @@ path = "dist"
 singlePageApplication = true
 
 [start]
-# CORRECCIÓN: Especifica 0.0.0.0 para que sea accesible externamente
-cmd = "npx serve -s dist -l 3000 --host 0.0.0.0"
+# CORRECCIÓN: Usa --listen en lugar de --host
+cmd = "npx serve -s dist -l 3000 --listen tcp://0.0.0.0:3000"
 
 [env]
 NODE_ENV = "production"
