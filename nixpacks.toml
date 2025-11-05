@@ -1,4 +1,4 @@
-# nixpacks.toml - VERSIÓN CORREGIDA
+# nixpacks.toml - CON SERVIDOR EXPRESS
 name = "aquatoreo-webapp"
 
 providers = ["node"]
@@ -12,15 +12,10 @@ cmds = ["npm install"]
 [phases.build]
 cmds = ["node node_modules/vite/bin/vite.js build"]
 
-[static]
-path = "dist"
-singlePageApplication = true
-
 [start]
-# CORRECCIÓN: Usa --listen en lugar de --host
-cmd = "npx serve -s dist -l 3000 --listen tcp://0.0.0.0:3000"
+# Usa nuestro servidor Express personalizado
+cmd = "node server.js"
 
 [env]
 NODE_ENV = "production"
 PORT = "3000"
-HOST = "0.0.0.0"
