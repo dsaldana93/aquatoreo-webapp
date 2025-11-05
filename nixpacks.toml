@@ -1,4 +1,4 @@
-# nixpacks.toml - USANDO NODE DIRECTAMENTE
+# nixpacks.toml - VERSIÓN CORREGIDA
 name = "aquatoreo-webapp"
 
 providers = ["node"]
@@ -10,7 +10,6 @@ nixPkgs = ["nodejs-18_x"]
 cmds = ["npm install"]
 
 [phases.build]
-# Ejecuta Vite directamente con Node.js, evitando problemas de permisos
 cmds = ["node node_modules/vite/bin/vite.js build"]
 
 [static]
@@ -18,7 +17,10 @@ path = "dist"
 singlePageApplication = true
 
 [start]
-cmd = "npx serve -s dist -l 3000"
+# CORRECCIÓN: Especifica 0.0.0.0 para que sea accesible externamente
+cmd = "npx serve -s dist -l 3000 --host 0.0.0.0"
 
 [env]
 NODE_ENV = "production"
+PORT = "3000"
+HOST = "0.0.0.0"
