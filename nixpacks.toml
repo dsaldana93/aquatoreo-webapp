@@ -1,7 +1,10 @@
-[phases]
-setup = "curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs npm"
-install = "npm install"
-build = "npm run build"
+name = "vite-app"
+
+[phases.setup]
+nixPkgs = ["nodejs-18_x", "python3"]
+
+[phases.build]
+cmds = ["npm run build"]
 
 [start]
-command = "npm start"
+cmd = "npm run preview"
