@@ -1,17 +1,7 @@
-[phases.setup]
-commands = [
-  "npm ci --unsafe-perm",
-  "chmod -R 755 node_modules/",
-  "ls -la node_modules/.bin/ | head -10"
-]
-
-[phases.build]
-commands = [
-  "chmod -R 755 node_modules/",
-  "npm run build"
-]
-
-providers = ["node"]
+[phases]
+setup = "curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs npm"
+install = "npm install"
+build = "npm run build"
 
 [start]
-cmd = "npx serve dist -p 4173 --single"
+command = "npm start"
