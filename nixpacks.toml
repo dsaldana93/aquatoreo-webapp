@@ -1,24 +1,29 @@
-# nixpacks.toml - PARA SPA ESTÁTICA
+# nixpacks.toml - SOLUCIÓN DEFINITIVA
 name = "aquatoreo-webapp"
 
-providers = ["node", "staticfile"]
+providers = ["node"]
 
 [phases.setup]
 nixPkgs = ["nodejs-18_x"]
 
 [phases.install]
-cmds = ["npm ci"]
+cmds = [
+    "npm install",
+    "chmod -R 755 node_modules/.bin/ || true"
+]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = [
+    "ls -la node_modules/.bin/vite || echo 'Vite not found'",
+    "which vite || echo 'Vite not in PATH'",
+    "npx vite build"
+]
 
-# Especifica la carpeta de build de Vite
 [static]
 path = "dist"
 singlePageApplication = true
 
 [start]
-# Para SPA, usa un servidor estático
 cmd = "npx serve -s dist -l 3000"
 
 [env]
