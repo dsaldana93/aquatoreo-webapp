@@ -1,10 +1,31 @@
-name = "vite-app"
+# nixpacks.toml
+name = "aquatoreo-webapp"
 
+# Fuerza a usar Node.js como provider principal
+providers = ["node", "npm"]
+
+# Especifica explícitamente que es una aplicación Node.js
 [phases.setup]
-nixPkgs = ["nodejs-18_x", "python3"]
+nixPkgs = ["nodejs-18_x", "python3", "gcc", "make", "g++"]
+
+# Configuración de caché para mejor performance
+cachePatterns = [
+    "**/node_modules/**",
+    "**/.npm/**",
+    "**/.cache/**"
+]
+
+[phases.install]
+cmds = ["npm ci"]
 
 [phases.build]
 cmds = ["npm run build"]
 
 [start]
-cmd = "npm run preview"
+# Fuerza el uso de Node.js en lugar de NGINX
+cmd = "npm start"
+
+# Variables de entorno
+[env]
+NODE_ENV = "production"
+NODE_VERSION = "18"
