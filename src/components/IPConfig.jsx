@@ -3,17 +3,22 @@ import { setESP32IP, getESP32IP } from '../services/api';
 
 function IPConfig({ onIPUpdated }) {
     const [showConfig, setShowConfig] = useState(false);
-    const [ipAddress, setIpAddress] = useState(getESP32IP() || 'dull-oranges-rescue.loca.lt');
+    const [ipAddress, setIpAddress] = useState(getESP32IP() || 'orthotropic-helena-inefficiently.ngrok-free.dev');
     const [saving, setSaving] = useState(false);
 
     const handleSaveIP = async () => {
-        // Validación mejorada para aceptar IPs, dominios (multi-label), localtunnel, ngrok y URLs completas
+        // Validación mejorada - FIXED para ngrok
         const value = (ipAddress || '').trim();
+        
+        // Patrones corregidos
         const ipPattern = /^(25[0-5]|2[0-4]\d|1?\d{1,2})(\.(25[0-5]|2[0-4]\d|1?\d{1,2})){3}$/;
-        const hostnamePattern = /^(?=.{1,253}$)(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,63}$/;
-        const localtunnelPattern = /^[A-Za-z0-9-]+\.loca\.lt$/;
-        const ngrokPattern = /^[A-Za-z0-9-]+\.ngrok(-free)?\.(dev|app)$/;
-        const urlPattern = /^https?:\/\/[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+(?::\d+)?(?:\/.*)?$/;
+        const hostnamePattern = /^(?!-)(?:(?:[a-zA-Z0-9-]{1,63}\.){1,})(?:[a-zA-Z]{2,63})$/;
+        const localtunnelPattern = /^[a-zA-Z0-9-]+\.loca\.lt$/;
+        
+        // ✅ PATTERN NGROK CORREGIDO - más flexible
+        const ngrokPattern = /^[a-zA-Z0-9-]+(?:-[a-zA-Z0-9-]+)*\.ngrok(?:-[a-zA-Z]+)*\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
+        
+        const urlPattern = /^https?:\/\/(?:[a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?::\d+)?(?:\/.*)?$/;
 
         const isValid =
             ipPattern.test(value) ||
@@ -23,7 +28,7 @@ function IPConfig({ onIPUpdated }) {
             urlPattern.test(value);
 
         if (!value || !isValid) {
-            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68), un dominio válido (ej: ejemplo.com, free-pianos-cheer.loca.lt, subdominio.ngrok-free.dev) o una URL completa (ej: https://ejemplo.com)');
+            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68), un dominio válido (ej: ejemplo.com, free-pianos-cheer.loca.lt, orthotropic-helena-inefficiently.ngrok-free.dev) o una URL completa (ej: https://ejemplo.com)');
             return;
         }
 
@@ -42,6 +47,7 @@ function IPConfig({ onIPUpdated }) {
         }
     };
 
+    // El resto del código permanece igual...
     if (!showConfig) {
         return (
             <div className="ip-config-toggle">
@@ -74,7 +80,7 @@ function IPConfig({ onIPUpdated }) {
                     type="text"
                     value={ipAddress}
                     onChange={(e) => setIpAddress(e.target.value)}
-                    placeholder="192.168.100.68 o free-pianos-cheer.loca.lt"
+                    placeholder="192.168.100.68 o orthotropic-helena-inefficiently.ngrok-free.dev"
                     disabled={saving}
                 />
                 
@@ -97,7 +103,7 @@ function IPConfig({ onIPUpdated }) {
                 <div className="config-help">
                     <small>
                         💡 Ingresa la IP local de tu ESP32 o un dominio de túnel. 
-                        Ejemplos: 192.168.100.68 o free-pianos-cheer.loca.lt
+                        Ejemplos: 192.168.100.68 o orthotropic-helena-inefficiently.ngrok-free.dev
                     </small>
                 </div>
             </div>
