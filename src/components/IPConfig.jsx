@@ -7,25 +7,31 @@ function IPConfig({ onIPUpdated }) {
     const [saving, setSaving] = useState(false);
 
     const handleSaveIP = async () => {
-        // Validación mejorada para aceptar IPs, dominios y URLs completas
-        const ipPattern = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
-        const domainPattern = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
-        const localtunnelPattern = /^[a-zA-Z0-9-]+\.loca\.lt$/;
-        const urlPattern = /^https?:\/\/(?:www\.)?[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+/;
-        
-        if (!ipAddress || 
-            (!ipPattern.test(ipAddress) && 
-             !domainPattern.test(ipAddress) && 
-             !localtunnelPattern.test(ipAddress) &&
-             !urlPattern.test(ipAddress))) {
-            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68), un dominio (ej: ejemplo.com) o una URL completa (ej: https://ejemplo.com o https://www.ejemplo.com)');
-            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68), un dominio (ej: ejemplo.com) o una URL completa (ej: https://ejemplo.com)');
+        // Validación mejorada para aceptar IPs, dominios (multi-label) y URLs completas
+        const value = (ipAddress || '').trim();
+        const ipPattern = /^(25[0-5]|2[0-4]\d|1?\d{1,2})(\.(25[0-5]|2[0-4]\d|1?\d{1,2})){3}$/;
+        // Hostnames con múltiples etiquetas y guiones (sin empezar/terminar con guion), p.ej. a-b.c-d.ngrok-free.dev
+        const hostnamePattern = /^(?=.{1,253}$)(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,63}$/;
+        const localtunnelPattern = /^[A-Za-z0-9-]+\.loca\.lt$/;
+        const ngrokPattern = /^[A-Za-z0-9-]+\.ngrok-free\.(?:app|dev)$/;
+        // URL http(s) con hostname multi-label y puerto opcional
+        const urlPattern = /^https?:\/\/[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+(?::\d+)?(?:\/.*)?$/;
+
+        const isValid =
+            ipPattern.test(value) ||
+            hostnamePattern.test(value) ||
+            localtunnelPattern.test(value) ||
+            ngrokPattern.test(value) ||
+            urlPattern.test(value);
+
+        if (!value || !isValid) {
+            alert('Por favor ingresa una dirección IP válida (ej: 192.168.100.68), un dominio válido (ej: ejemplo.com, free-pianos-cheer.loca.lt, subdominio.ngrok-free.dev) o una URL completa (ej: https://ejemplo.com)');
             return;
         }
 
         setSaving(true);
         try {
-            setESP32IP(ipAddress);
+            setESP32IP(value);
             setShowConfig(false);
             if (onIPUpdated) {
                 onIPUpdated();
