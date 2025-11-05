@@ -1,4 +1,4 @@
-# nixpacks.toml - SOLUCIÓN DEFINITIVA
+# nixpacks.toml - VERSIÓN CORREGIDA
 name = "aquatoreo-webapp"
 
 providers = ["node"]
@@ -9,14 +9,14 @@ nixPkgs = ["nodejs-18_x"]
 [phases.install]
 cmds = [
     "npm install",
-    "chmod -R 755 node_modules/.bin/ || true"
+    "chmod +x node_modules/.bin/vite || echo 'Vite permissions fixed'",
+    "chmod +x node_modules/.bin/* || echo 'All bin permissions fixed'"
 ]
 
 [phases.build]
 cmds = [
-    "ls -la node_modules/.bin/vite || echo 'Vite not found'",
-    "which vite || echo 'Vite not in PATH'",
-    "npx vite build"
+    "ls -la node_modules/.bin/vite",
+    "node node_modules/vite/bin/vite.js build"
 ]
 
 [static]
